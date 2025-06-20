@@ -1,165 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Harmonium Learning</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f4f4;
-      color: #333;
+{
+  "name": "WEST BENGAL BUS UPDATE(NirdeshAk)",
+  "short_name": "NirdeshAk",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563EB",
+  "icons": [
+    {
+      "src": "Red_Yellow_Simple_Tour_Bus_Rental_Travel_Logo-removebg-preview.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "Red_Yellow_Simple_Tour_Bus_Rental_Travel_Logo-removebg-preview.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
-    header {
-      background: #6b4f3b;
-      color: #fff;
-      padding: 1rem 2rem;
-      text-align: center;
-    }
-    nav {
-      background: #4a362a;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      padding: 0.5rem;
-    }
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    section {
-      padding: 2rem;
-    }
-    h2 {
-      color: #6b4f3b;
-    }
-    .lessons video {
-      max-width: 100%;
-      border: 2px solid #ccc;
-      margin-top: 1rem;
-    }
-    .keyboard {
-      display: flex;
-      margin-top: 1rem;
-      gap: 4px;
-      flex-wrap: wrap;
-    }
-    .key {
-      width: 60px;
-      height: 180px;
-      background: #fff;
-      border: 1px solid #333;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-    }
-    .key:active {
-      background: #eee;
-    }
-    .contact-form input, .contact-form textarea {
-      width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .contact-form button {
-      background: #6b4f3b;
-      color: white;
-      padding: 0.7rem 1.5rem;
-      border: none;
-      margin-top: 1rem;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    .contact-form button:hover {
-      background: #5a3f2a;
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <h1>🎵 Harmonium Learning Website 🎵</h1>
-  </header>
-
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#lessons">Lessons</a>
-    <a href="#keyboard">Play</a>
-    <a href="#contact">Contact</a>
-  </nav>
-
-  <section id="home">
-    <h2>Welcome to Harmonium Learning</h2>
-    <p>Learn to play harmonium online with easy video lessons and interactive keyboard.</p>
-  </section>
-
-  <section id="lessons" class="lessons">
-    <h2>📚 Basic Lessons</h2>
-    <p>Watch this introductory video to get started:</p>
-    <video controls>
-      <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
-  </section>
-
-  <section id="keyboard">
-    <h2>🎹 Play Harmonium</h2>
-    <p>Click on the swaras to hear the sound:</p>
-    <div class="keyboard">
-      <div class="key" onclick="playSound('sa')">Sa</div>
-      <div class="key" onclick="playSound('re')">Re</div>
-      <div class="key" onclick="playSound('ga')">Ga</div>
-      <div class="key" onclick="playSound('ma')">Ma</div>
-      <div class="key" onclick="playSound('pa')">Pa</div>
-      <div class="key" onclick="playSound('dha')">Dha</div>
-      <div class="key" onclick="playSound('ni')">Ni</div>
-      <div class="key" onclick="playSound('sa2')">Sa'</div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <h2>📞 Contact Us</h2>
-    <form class="contact-form" onsubmit="submitForm(event)">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea rows="4" placeholder="Your Message"></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
-
-  <script>
-    const sounds = {
-      sa: new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_b4eb03b198.mp3"),
-      re: new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_5966cf0cb0.mp3"),
-      ga: new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_a9c19c041e.mp3"),
-      ma: new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_eb4ed779e4.mp3"),
-      pa: new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_d087994db2.mp3"),
-      dha: new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7a6d7743aa.mp3"),
-      ni: new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_bcb879ad5c.mp3"),
-      sa2: new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6ea38c7010.mp3")
-    };
-
-    function playSound(note) {
-      if (sounds[note]) {
-        sounds[note].currentTime = 0;
-        sounds[note].play();
-      }
-    }
-
-    function submitForm(e) {
-      e.preventDefault();
-      alert("Thank you! We will contact you soon.");
-    }
-  </script>
-
-</body>
-</html>
+  ]
+}
