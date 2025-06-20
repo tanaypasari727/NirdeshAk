@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bus Time Finder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2563EB">
+</head>
+
+<body class="bg-gray-100 text-gray-800 transition duration-300">
+  <header class="bg-blue-600 text-white p-4 text-center text-2xl font-bold shadow">
+    🚍 Bus Time Finder
+  </header>
+
+  <section class="p-6 max-w-4xl mx-auto">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-6">
+      <div class="flex justify-between items-center">
+        <h2 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Welcome to Bus Time Finder</h2>
+        <div class="space-x-2">
+          <select id="languageToggle" class="px-2 py-1 text-sm border border-gray-300 rounded">
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+          </select>
+          <button id="toggleTheme" class="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 rounded shadow">🌙</button>
+          <button id="resetSearch" class="px-3 py-1 text-sm bg-red-500 text-white rounded shadow">Reset</button>
+        </div>
+      </div>
+      <p id="introText" class="mb-2 text-gray-700 dark:text-gray-300">This site helps you find updated bus route details in your area. Just type a bus number, stop name, or route name below to get complete details including bus image, stop timeline, contact, and a route map!</p>
+      <ul id="featuresList" class="list-disc pl-6 text-gray-700 dark:text-gray-300">
+        <li>Find buses by number, stop, or route name</li>
+        <li>See all stops visually with a stylish timeline</li>
+        <li>View embedded route maps (Google Maps)</li>
+        <li>Works offline and can be installed like an app</li>
+      </ul>
+    </div>
+
+    <input id="searchBar" type="text" placeholder="Search by bus number, stop or route..."
+      class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+    <div id="busList" class="mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2">
+      <!-- Bus Cards Rendered Here -->
+    </div>
+  </section>
+
+  <script>
+    const buses = [
+      {
+        busNumber: "B101",
+        routeName: "Station to City Center",
+        stops: ["Station", "Market", "Central Park", "City Center"],
+        contact: "+91 98765 43210",
+        image: "https://i.imgur.com/KZsmUi2l.jpg",
+        map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3..."
+      },
+      {
+        busNumber: "B202",
+        routeName: "Airport to Tech Park",
+        stops: ["Airport", "Ring Road", "Mall", "Tech Park"],
+        contact: "+91 87654 32109",
+        image: "https://i.imgur.com/GwW82hd.jpg",
+        map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3..."
+      },
+      {
+        busNumber: "B303",
+        routeName: "University to Hospital",
+        stops: ["University", "Library", "Bus Depot", "Hospital"],
+        contact: "+91 91234 56789",
+        image: "https://i.imgur.com/ZXBtVw7.jpg",
+        map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3..."
+      }
+    ];
+
+    const busList = document.getElementById("busList");
+    const searchBar = document.getElementById("searchBar");
+    const resetSearch = document.getElementById("resetSearch");
+    const toggleTheme = document.getElementById("toggleTheme");
+    const languageToggle = document.getElementById("languageToggle");
+    const introText = document.getElementById("introText");
+    const featuresList = document.getElementById("featuresList");
+
+    function renderBuses(filteredBuses) {
+      busList.innerHTML = "";
+      filteredBuses.forEach(bus => {
+        const card = document.createElement("div");
+        card.className = "bg-white dark:bg-gray-900 rounded-xl shadow p-4 hover:shadow-lg transition";
+
+        const stopsTimeline = bus.stops.map((stop) => `
+          <div class='flex items-center space-x-2'>
+            <div class='w-3 h-3 rounded-full bg-blue-500'></div>
+            <p class='text-sm text-gray-800 dark:text-gray-200'>${stop}</p>
+          </div>`).join("");
+
+        card.innerHTML = `
+          <img src="${bus.image}" alt="${bus.routeName}" class="rounded-lg mb-3 h-40 w-full object-cover">
+          <h2 class="text-xl font-semibold text-blue-700 dark:text-blue-300">${bus.busNumber} - ${bus.routeName}</h2>
+          <div class="mt-2 space-y-1">${stopsTimeline}</div>
+          <p class="mt-2 text-sm text-gray-700 dark:text-gray-300"><strong>Contact:</strong> ${bus.contact}</p>
+          <div class="mt-3">
+            <iframe src="${bus.map}" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="rounded-md"></iframe>
+          </div>
+        `;
+
+        busList.appendChild(card);
+      });
+    }
+
+    searchBar.addEventListener("input", () => {
+      const query = searchBar.value.toLowerCase();
+      const filtered = buses.filter(bus =>
+        bus.busNumber.toLowerCase().includes(query) ||
+        bus.routeName.toLowerCase().includes(query) ||
+        bus.stops.some(stop => stop.toLowerCase().includes(query))
+      );
+      renderBuses(filtered);
+    });
+
+    resetSearch.addEventListener("click", () => {
+      searchBar.value = "";
+      renderBuses([]);
+    });
+
+    toggleTheme.addEventListener("click", () => {
+      const htmlEl = document.documentElement;
+      const isDark = htmlEl.classList.toggle("dark");
+      htmlEl.setAttribute("data-theme", isDark ? "dark" : "light");
+    });
+
+    languageToggle.addEventListener("change", () => {
+      const lang = languageToggle.value;
+      if (lang === "hi") {
+        introText.textContent = "यह साइट आपके क्षेत्र में बस मार्ग विवरण खोजने में मदद करती है। बस संख्या, स्टॉप या रूट नाम दर्ज करें और पूरी जानकारी पाएं!";
+        featuresList.innerHTML = `
+          <li>बस नंबर, स्टॉप, या रूट नाम से खोजें</li>
+          <li>स्टाइलिश टाइमलाइन में सभी स्टॉप देखें</li>
+          <li>गूगल मैप में रूट मैप देखें</li>
+          <li>ऑफलाइन भी काम करता है और इंस्टॉल किया जा सकता है</li>`;
+      } else {
+        introText.textContent = "This site helps you find updated bus route details in your area. Just type a bus number, stop name, or route name below to get complete details including bus image, stop timeline, contact, and a route map!";
+        featuresList.innerHTML = `
+          <li>Find buses by number, stop, or route name</li>
+          <li>See all stops visually with a stylish timeline</li>
+          <li>View embedded route maps (Google Maps)</li>
+          <li>Works offline and can be installed like an app</li>`;
+      }
+    });
+
+    renderBuses([]);
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        console.log("User location:", pos.coords.latitude, pos.coords.longitude);
+        // You can use coords here for future features like nearby buses
+      });
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
+</body>
+
+</html>
